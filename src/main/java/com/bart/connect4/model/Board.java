@@ -20,13 +20,13 @@ public class Board {
         return grid[row][col];
     }
 
-    public boolean dropPiece(int column, Piece piece) {
+    public int dropPiece(int column, Piece piece) {
         for (int row = ROWS - 1; row >= 0; row--) {
             if (grid[row][column] == Piece.EMPTY) {
                 grid[row][column] = piece;
-                return true;
+                return row;
             }
         }
-        return false;
+        return -1;
     }
 }

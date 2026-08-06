@@ -1,5 +1,6 @@
 package com.bart.connect4;
 
+import com.bart.connect4.controller.GameController;
 import com.bart.connect4.ui.BoardView;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,6 +12,8 @@ public class Main extends Application{
     public void start(Stage stage){
 
         BoardView boardView = new BoardView();
+
+        new GameController(boardView);
 
         Scene scene = new Scene(boardView, 700, 600);
 
