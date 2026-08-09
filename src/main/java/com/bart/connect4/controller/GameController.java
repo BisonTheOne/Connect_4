@@ -16,8 +16,10 @@ public class GameController {
         this.board = new Board();
 
         boardView.setOnColumnClicked(this::playMove);
+        boardView.setOnRestartClicked(this::restart);
         boardView.update(board);
         gameOver = false;
+
     }
 
     private void playMove(int column){

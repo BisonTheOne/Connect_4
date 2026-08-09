@@ -2,9 +2,14 @@ package com.bart.connect4;
 
 import com.bart.connect4.controller.GameController;
 import com.bart.connect4.ui.BoardView;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.application.Application;
+import javafx.scene.control.Button;
+
 
 public class Main extends Application{
 
@@ -13,7 +18,7 @@ public class Main extends Application{
 
         BoardView boardView = new BoardView();
 
-        new GameController(boardView);
+        GameController gameController= new  GameController(boardView);
 
         Scene scene = new Scene(boardView, 700, 600);
 
