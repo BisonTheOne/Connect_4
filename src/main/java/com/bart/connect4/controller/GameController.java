@@ -1,8 +1,11 @@
 package com.bart.connect4.controller;
 
+import com.bart.connect4.ai.RandomBot;
 import com.bart.connect4.model.Board;
 import com.bart.connect4.model.Piece;
 import com.bart.connect4.ui.BoardView;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class GameController {
 
@@ -10,6 +13,7 @@ public class GameController {
     private final BoardView boardView;
     private boolean gameOver;
     private Piece currentPlayer = Piece.RED;
+    private final RandomBot bot = new RandomBot(Piece.YELLOW);
 
     public GameController(BoardView boardView){
         this.boardView = boardView;
@@ -22,25 +26,67 @@ public class GameController {
 
     }
 
-    private void playMove(int column){
-        int row = board.dropPiece(column,currentPlayer);
-        if(row == -1)
-            return;
+    private void playMove(int column) {
 
-        boardView.update(board);
-
-
-        boolean finished = checkWin(board, row, column, currentPlayer);
-
-        if(finished){
-            this.gameOver = true;
-            boardView.showWinner(currentPlayer);
+        if (gameOver || currentPlayer != Piece.RED) {
             return;
         }
 
-        currentPlayer =
-                currentPlayer == Piece.RED ? Piece.YELLOW : Piece.RED;
+        boolean movePlayed = makeMove(column, Piece.RED);
+
+        if (movePlayed && !gameOver) {
+            playBotMove();
+        }
     }
+
+    private void playBotMove() {
+
+        if (gameOver) {
+            return;
+        }
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+
+        pause.setOnFinished(e->{
+            if(gameOver)
+                return;
+
+            int column = bot.chooseColumn(board);
+
+            makeMove(column, Piece.YELLOW);
+
+        });
+
+        pause.play();
+
+    }
+
+    private boolean makeMove(int column, Piece piece) {
+
+        int row = board.dropPiece(column, piece);
+
+        if (row == -1) {
+            return false;
+        }
+
+        boardView.update(board);
+
+        boolean finished = checkWin(board, row, column, piece);
+
+        if (finished) {
+            gameOver = true;
+            boardView.showWinner(piece);
+            return true;
+        }
+
+        currentPlayer =
+                currentPlayer == Piece.RED
+                        ? Piece.YELLOW
+                        : Piece.RED;
+
+        return true;
+    }
+
 
     private boolean checkWin(Board board, int row, int col, Piece piece) {
         int[][] directions = {
@@ -54,7 +100,7 @@ public class GameController {
             int dr = dir[0];
             int dc = dir[1];
 
-            int count = 1; // the piece just placed counts as 1
+            int count = 1;
             count += countDirection(board, row, col, dr, dc, piece);
             count += countDirection(board, row, col, -dr, -dc, piece);
 

@@ -20,6 +20,10 @@ public class Board {
         return grid[row][col];
     }
 
+    public boolean isColumnAvailable(int column) {
+        return grid[0][column] == Piece.EMPTY;
+    }
+
     public int dropPiece(int column, Piece piece) {
         for (int row = ROWS - 1; row >= 0; row--) {
             if (grid[row][column] == Piece.EMPTY) {
