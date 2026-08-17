@@ -1,5 +1,6 @@
 package com.bart.connect4.controller;
 
+import com.bart.connect4.ai.MinimaxBot;
 import com.bart.connect4.ai.RandomBot;
 import com.bart.connect4.model.Board;
 import com.bart.connect4.model.Piece;
@@ -13,7 +14,7 @@ public class GameController {
     private final BoardView boardView;
     private boolean gameOver;
     private Piece currentPlayer = Piece.RED;
-    private final RandomBot bot = new RandomBot(Piece.YELLOW);
+    private final MinimaxBot bot = new MinimaxBot(Piece.YELLOW);
 
     public GameController(BoardView boardView){
         this.boardView = boardView;

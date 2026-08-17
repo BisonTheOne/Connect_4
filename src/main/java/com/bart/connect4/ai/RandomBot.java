@@ -6,7 +6,7 @@ import com.bart.connect4.model.Piece;
 import java.util.Random;
 
 public class RandomBot implements Bot {
-    private final Random rnd = new Random(22577);
+    private final Random rnd = new Random();
     private final Piece piece;
 
     public RandomBot(Piece piece){
@@ -20,13 +20,11 @@ public class RandomBot implements Bot {
         int column ;
 
         do {
-            column = rnd.nextInt(7);
+            column = rnd.nextInt(Board.COLS);
         }while (!board.isColumnAvailable(column));
             return column ;
         }
 
-    @Override
-    public Piece getPiece() {
-        return piece;
-    }
+
+
 }
